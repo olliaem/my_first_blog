@@ -9,7 +9,7 @@ def post_list(request):
     return render(request, 'blog/post_list.html', {'posts': posts})
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})#
+    return render(request, 'blog/post_detail.html', {'post': post})#чтоб нажимать на пост
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -35,6 +35,10 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
-
+def post_delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    form = PostForm(request.POST, instance=post)
+    post.delete()
+    return redirect('blog/post_edit.html',{'form': form})
 
 # Create your views here.
